@@ -10,7 +10,7 @@ class RegisterController extends Controller
 {
     public function store(RegisterRequest $request)
     {
-        if(! $request->isRegister())
+        if(! $request->persist())
         {
             return response()->json(['error' => 'Unauthorized'], 401);
         }

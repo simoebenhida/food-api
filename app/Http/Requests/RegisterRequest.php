@@ -33,13 +33,13 @@ class RegisterRequest extends FormRequest
         ];
     }
 
-    public function isRegister()
+    public function persist()
     {
         $user = User::create(collect($this->all())->merge([
             'password' => bcrypt($this->password)
         ])->except('confirmed_password')->toArray());
 
-        Auth::login($user);
+        auth()->setUser($user);
 
         return true;
     }

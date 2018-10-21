@@ -34,7 +34,7 @@ class User extends Authenticatable
 
     public function storeToken()
     {
-        $this->withAccessToken($this->createToken('MyApp')->accessToken);
+        $this->withAccessToken($this->createToken('Auth')->accessToken);
 
         return $this;
     }

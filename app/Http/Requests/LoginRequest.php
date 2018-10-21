@@ -2,8 +2,10 @@
 
 namespace App\Http\Requests;
 
+use App\User;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class LoginRequest extends FormRequest
 {
@@ -32,10 +34,19 @@ class LoginRequest extends FormRequest
 
     public function hasToken()
     {
-        if (! Auth::attempt(request()->only('email', 'password'))) {
+        $user = User::where('email', $this->email)->first();
+
+        if(! $this->checkPassword($this->password, $user->password)) {
             return false;
         }
 
+        auth()->setUser($user);
+
         return !! auth()->user()->storeToken();
+    }
+
+    public function checkPassword($password, $hashedPassword)
+    {
+        return Hash::check($password, $hashedPassword);
     }
 }

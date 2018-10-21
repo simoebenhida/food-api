@@ -16,22 +16,36 @@
 
 <script>
     export default {
-        mounted() {
-            // axios.post('/api/login',{
-            //     email : 'keara54@example.org',
-            //     password : 'secret'
-            // }).then(response => {
-            //     console.log(response);
-            // })
+        data() {
+            return {
+                access_token : ''
+            }
+        },
+        async mounted() {
+            await axios.post('/api/login',{
+                email : 'keara54@example.org',
+                password : 'secret'
+            }).then(({data}) => {
+                this.access_token = data.user.token
+            })
 
-            axios.post('/api/register',{
-                name: 'test',
-                email: 'test@test.com',
-                password: 'secret',
-                confirmed_password: 'secret'
+            await axios.post('/api/logout',{},{
+                headers: {
+                    'Authorization': `Bearer ${this.access_token}`,
+                    'Accept': 'application/json'
+                }
             }).then(response => {
                 console.log(response);
             })
+
+            // axios.post('/api/register',{
+            //     name: 'test',
+            //     email: 'test@test.com',
+            //     password: 'secret',
+            //     confirmed_password: 'secret'
+            // }).then(response => {
+            //     console.log(response);
+            // })
             console.log('Component mounted.')
         }
     }

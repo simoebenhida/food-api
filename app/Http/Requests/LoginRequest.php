@@ -36,13 +36,12 @@ class LoginRequest extends FormRequest
     {
         $user = User::where('email', $this->email)->first();
 
-        if(! $this->checkPassword($this->password, $user->password)) {
-            return false;
+        if($user && $this->checkPassword($this->password, $user->password)) {
+            auth()->setUser($user);
+            return !! auth()->user()->storeToken();
         }
 
-        auth()->setUser($user);
-
-        return !! auth()->user()->storeToken();
+        return false;
     }
 
     public function checkPassword($password, $hashedPassword)

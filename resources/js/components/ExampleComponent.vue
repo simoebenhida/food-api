@@ -22,6 +22,7 @@
             }
         },
         async mounted() {
+
             await axios.post('/api/login',{
                 email : 'keara54@example.org',
                 password : 'secret'

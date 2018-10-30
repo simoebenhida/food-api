@@ -18,11 +18,8 @@ use Illuminate\Http\Request;
 // });
 
 Route::group(['namespace' => 'API'], function() {
-    Route::group(['namespace' => 'LoginController'], function() {
-        Route::post('login', '@store');
-        Route::post('logout', '@destroy');
-    });
-
+    Route::post('login', 'LoginController@store');
+    Route::post('logout', 'LoginController@destroy');
     Route::post('register', 'RegisterController@store');
 });
 

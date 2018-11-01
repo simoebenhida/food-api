@@ -22,4 +22,5 @@ Route::group(['namespace' => 'API'], function() {
     Route::post('logout', 'LoginController@destroy');
     Route::post('register', 'RegisterController@store');
 });
+Route::middleware('auth:api')->get('food', 'FoodController@index');
 

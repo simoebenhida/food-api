@@ -10,13 +10,15 @@ class RegisterController extends Controller
 {
     public function store(RegisterRequest $request)
     {
-        if(! $request->persist())
-        {
+        try {
+            $request->persist();
+
+            auth()->user()->storeToken();
+
+            return response()->json(['user' => auth()->user()], 201);
+        } catch(\Exeption $e) {
+
             return response()->json(['error' => 'Unauthorized'], 401);
         }
-
-        auth()->user()->storeToken();
-
-        return response()->json(['user' => auth()->user()]);
     }
 }

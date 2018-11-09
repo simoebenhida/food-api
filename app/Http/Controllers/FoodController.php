@@ -3,13 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Food;
+use App\Http\Resources\Foods;
 use Illuminate\Http\Request;
 
 class FoodController extends Controller
 {
     public function __construct()
     {
-        $this->middleware('auth');
+        // $this->middleware('auth');
     }
     /**
      * Display a listing of the resource.
@@ -18,7 +19,16 @@ class FoodController extends Controller
      */
     public function index()
     {
-        return response()->json(['food' => Food::all()]);
+        //with default wrap
+        //return Foods::collection(Food::all());
+
+        //with custom wrap
+        // Foods::$wrap = "json";
+        // return Foods::collection(Food::all());
+
+        // with no wrapper
+        Foods::withoutWrapping();
+        return Foods::collection(Food::all());
     }
 
     /**

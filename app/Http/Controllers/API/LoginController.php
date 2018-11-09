@@ -13,7 +13,7 @@ class LoginController extends Controller
     {
         if($request->hasToken())
         {
-            return response()->json(['user' => auth()->user()]);
+            return response()->json(['user' => auth()->user()], 200);
         }
 
         return response()->json(['error' => 'Unauthorized'], 401);

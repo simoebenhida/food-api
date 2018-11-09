@@ -35,9 +35,14 @@ class RegisterRequest extends FormRequest
 
     public function persist()
     {
-        $user = User::create(collect($this->all())->merge([
-            'password' => bcrypt($this->password)
-        ])->except('confirmed_password')->toArray());
+        $user = User::create(
+            collect($this->all())
+                ->merge([
+                'password' => bcrypt($this->password)
+                ])
+                ->except('confirmed_password')
+                ->toArray()
+        );
 
         auth()->setUser($user);
 

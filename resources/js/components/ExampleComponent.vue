@@ -28,9 +28,10 @@
                 password : 'secret'
             }).then(({data}) => {
                 this.access_token = data.user.token
+                return this.access_token;
             })
 
-            await axios.post('/api/logout',{},{
+            await axios.get('/api/foods',{
                 headers: {
                     'Authorization': `Bearer ${this.access_token}`,
                     'Accept': 'application/json'
@@ -38,6 +39,15 @@
             }).then(response => {
                 console.log(response);
             })
+
+            // await axios.post('/api/logout',{},{
+            //     headers: {
+            //         'Authorization': `Bearer ${this.access_token}`,
+            //         'Accept': 'application/json'
+            //     }
+            // }).then(response => {
+            //     console.log(response);
+            // })
 
             // axios.post('/api/register',{
             //     name: 'test',

@@ -17,10 +17,13 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // });
 
-Route::group(['namespace' => 'API'], function() {
-    Route::post('login', 'LoginController@store');
-    Route::post('logout', 'LoginController@destroy');
-    Route::post('register', 'RegisterController@store');
+Route::post('/login', 'LoginController@store')->name('login');
+Route::post('/logout', 'LoginController@destroy')->name('logout');
+Route::post('/register', 'RegisterController@store')->name('register');
+
+Route::group(['middleware' => 'auth:api'], function() {
+    Route::get('/foods', 'FoodController@index')->name('food.index');
+    Route::post('/foods', 'FoodController@store')->name('food.store');
 });
-Route::middleware('auth:api')->get('foods', 'FoodController@index');
+// Route::middleware('auth:api')->get('/foods', 'FoodController@index');
 

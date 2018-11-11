@@ -49,7 +49,14 @@ class FoodController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        request()->validate([
+            'title' => 'required',
+            'price' => 'integer|required'
+        ]);
+
+        $food = request()->user()->foods()->create(request()->all());
+
+        return Foods::make($food);
     }
 
     /**

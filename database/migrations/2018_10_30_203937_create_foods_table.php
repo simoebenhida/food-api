@@ -19,7 +19,12 @@ class CreateFoodsTable extends Migration
             $table->string('image');
             $table->text('description');
             $table->integer('price');
+            $table->unsignedInteger('user_id');
             $table->timestamps();
+
+            $table->foreign('user_id')
+            ->references('id')->on('users')
+            ->onDelete('cascade');
         });
     }
 

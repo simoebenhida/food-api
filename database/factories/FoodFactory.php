@@ -19,5 +19,15 @@ $factory->define(App\Food::class, function () use($faker) {
         },
         'description' => $faker->text(),
         'price' => $faker->randomNumber(2),
+        'user_id' => function() {
+            return factory('App\User')->create()->id;
+        }
     ];
 });
+
+
+$factory->state(App\Food::class, 'test', function ($faker) {
+    return [
+    ];
+});
+

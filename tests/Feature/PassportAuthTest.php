@@ -15,20 +15,62 @@ class PassportAuthTest extends TestCase
         parent::setUp();
         $this->artisan('passport:install');
     }
+
+    /** @test */
+    public function can_log_in()
+    {
+        $user = factory('App\User')->create();
+
+        $response = $this->post(route('login'), [
+                "email" => $user->email,
+                "password" => 'secret'
+        ]);
+
+        $response->assertSuccessful()
+            ->assertSee('token')
+            ->assertJsonFragment([
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email
+            ]);
+    }
+
+    /** @test */
+    public function can_register()
+    {
+        $this->assertEquals(0, \App\User::count());
+
+        $response = $this->post(route('register'), [
+                "name" => 'Mohamed Benhida',
+                "email" => 'email@email.com',
+                "password" => 'secret',
+                "confirmed_password" => 'secret'
+        ]);
+
+        $response->assertSuccessful()
+            ->assertSee('token')
+            ->assertJsonFragment([
+                'name' => 'Mohamed Benhida',
+                'email' => 'email@email.com',
+            ]);
+
+        $this->assertEquals(1, \App\User::count());
+
+        $this->assertDatabaseHas('users', [
+            'name' => 'Mohamed Benhida',
+            'email' => 'email@email.com',
+        ]);
+    }
+
     /** @test */
     public function is_logged_in()
     {
-        $this->withoutExceptionHandling();
-
         $user = factory('App\User')->create();
 
-        $response = $this->post('api/login', [
-            "email" => $user->email,
-            "password" => 'secret'
-        ]);
+        $this->actingAs($user);
 
-        $response->assertSuccessful();
-        $response->assertSee('token');
-        $response->assertJsonCount(7,'user');
+        $this->assertAuthenticated(); //default guard api
+        $this->assertAuthenticatedAs($user); //default guard api
     }
+
 }

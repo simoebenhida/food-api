@@ -35,6 +35,7 @@ class RegisterRequest extends FormRequest
 
     public function persist()
     {
+        // lodash
         $user = User::create(
             collect($this->all())
                 ->merge([

@@ -38,7 +38,7 @@ class LoginRequest extends FormRequest
 
         if($user && $this->checkPassword($this->password, $user->password)) {
             auth()->setUser($user);
-            return !! auth()->user()->storeToken();
+            return (bool) auth()->user()->storeToken();
         }
 
         return false;

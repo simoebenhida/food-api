@@ -4,7 +4,7 @@
     </head>
     <body>
         <div id="app">
-            <example />
+            <example-sleep />
         </div>
         <script src="{{ asset('js/app.js') }}"></script>
     </body>
